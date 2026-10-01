@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { API_BASE_URL } from "@/lib/api";
 
 interface AddCompanyModalProps {
   isOpen: boolean;
@@ -49,7 +50,7 @@ export default function AddCompanyModal({ isOpen, onClose, onSuccess }: AddCompa
     try {
       if (runPipeline) {
         // Call the unified pipeline endpoint
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/companies/pipeline`, {
+        const res = await fetch(`${API_BASE_URL}/api/companies/pipeline`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ name: name.trim(), website: website.trim() }),
@@ -73,7 +74,7 @@ export default function AddCompanyModal({ isOpen, onClose, onSuccess }: AddCompa
         router.refresh();
       } else {
         // Just create the basic company entry
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/companies/`, {
+        const res = await fetch(`${API_BASE_URL}/api/companies/`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ name: name.trim(), website: website.trim() }),

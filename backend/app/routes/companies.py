@@ -109,6 +109,7 @@ def delete_company(company_id: int, db: Session = Depends(get_db)):
 # ==============================================================================
 
 @router.post("/analyze")
+@router.post("/analyze/")
 def analyze_company_endpoint(company_in: CompanyCreate, db: Session = Depends(get_db)):
     """
     Task 1 & Task 5: Validates URL, extracts public company information, sends to LLM,
@@ -741,6 +742,7 @@ def run_company_pipeline(company_id: int, db: Session = Depends(get_db)):
     }
 
 @router.post("/pipeline")
+@router.post("/pipeline/")
 def ingest_and_run_pipeline(company_in: CompanyCreate, db: Session = Depends(get_db)):
     """Ingests a company and executes the entire pipeline in one single API call."""
     comp_name = company_in.name.strip() if company_in.name else derive_company_name_from_url(company_in.website)

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { API_BASE_URL } from "@/lib/api";
 
 const PIPELINE_STEPS = [
   { id: 1, label: "Validating Target URL & Fetching Public Content" },
@@ -38,7 +39,7 @@ export default function AddCompanyPageClient() {
         setCurrentStep((prev) => (prev < 5 ? prev + 1 : prev));
       }, 3500);
 
-      const endpoint = runPipeline ? `${process.env.NEXT_PUBLIC_API_URL}/api/companies/pipeline` : `${process.env.NEXT_PUBLIC_API_URL}/api/companies/analyze`;
+      const endpoint = runPipeline ? `${API_BASE_URL}/api/companies/pipeline` : `${API_BASE_URL}/api/companies/analyze`;
       const payload = {
         name: name.trim() || undefined,
         website: url.trim(),
