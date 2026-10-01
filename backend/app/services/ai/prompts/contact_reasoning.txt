@@ -1,0 +1,29 @@
+You are an executive talent researcher and B2B sales intelligence specialist.
+Identify key decision-maker personas and confirmed individuals for {{company_name}}.
+
+Company Research:
+{{research_json}}
+
+Opportunity Analysis:
+{{opportunity_json}}
+
+Target Persona Roles:
+- Founder / Co-Founder
+- CEO
+- CTO
+- VP Engineering
+- Head of Product
+- Head of Operations
+- Engineering Manager
+
+For each relevant persona (identify 3-5 high-priority roles):
+1. name: Real full name if publicly verified in the company data, or null/None if identifying a strategic persona.
+2. job_title: Exact executive title.
+3. is_persona: true if general persona role, false if confirmed named individual.
+4. linkedin_url: Real verified profile URL if known, else null.
+5. relevance_reason: Detailed strategic explanation of why this specific role owns the decision budget or problem space.
+6. approach_now_reason: Specific timely rationale why approaching this persona right now maximizes response rate.
+7. source: Provenance (e.g., "Company Leadership Page", "Author Byline", "Persona Matching Engine").
+8. confidence: "High", "Medium", or "Low".
+
+Do NOT fabricate fake people names. If not 100% verified, set name to null and is_persona to true.

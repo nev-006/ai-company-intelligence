@@ -1,0 +1,125 @@
+{
+  "name": "Company Intelligence Pipeline",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "ingest-company",
+        "responseMode": "lastNode",
+        "options": {}
+      },
+      "id": "webhook-node",
+      "name": "Webhook (Company Input)",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [ 0, 0 ],
+      "webhookId": "company-intelligence-ingest"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://host.docker.internal:8000/api/companies/",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            { "name": "name", "value": "={{ $json.body.name }}" },
+            { "name": "website", "value": "={{ $json.body.website }}" }
+          ]
+        },
+        "options": {}
+      },
+      "id": "create-company",
+      "name": "1. Create Company",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [ 200, 0 ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=http://host.docker.internal:8000/api/companies/{{ $json.id }}/research",
+        "options": {}
+      },
+      "id": "run-research",
+      "name": "2. Run AI Research",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [ 400, 0 ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=http://host.docker.internal:8000/api/opportunities/company/{{ $('1. Create Company').item.json.id }}/score",
+        "options": {}
+      },
+      "id": "score-opportunity",
+      "name": "3. Score Opportunity",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [ 600, 0 ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=http://host.docker.internal:8000/api/companies/{{ $('1. Create Company').item.json.id }}/people",
+        "options": {}
+      },
+      "id": "find-people",
+      "name": "4. Find People",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [ 800, 0 ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=http://host.docker.internal:8000/api/outreach/generate/{{ $json[0].id }}",
+        "continueOnFail": true,
+        "options": {}
+      },
+      "id": "generate-outreach",
+      "name": "5. Generate Personalised Outreach",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [ 1000, 0 ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=http://host.docker.internal:8000/api/signals/company/{{ $('1. Create Company').item.json.id }}/detect",
+        "options": {}
+      },
+      "id": "detect-signals",
+      "name": "6. Detect Triggers",
+      "continueOnFail": true,
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [ 1200, 0 ]
+    }
+  ],
+  "connections": {
+    "Webhook (Company Input)": {
+      "main": [ [ { "node": "1. Create Company", "type": "main", "index": 0 } ] ]
+    },
+    "1. Create Company": {
+      "main": [ [ { "node": "2. Run AI Research", "type": "main", "index": 0 } ] ]
+    },
+    "2. Run AI Research": {
+      "main": [ [ { "node": "3. Score Opportunity", "type": "main", "index": 0 } ] ]
+    },
+    "3. Score Opportunity": {
+      "main": [ [ { "node": "4. Find People", "type": "main", "index": 0 } ] ]
+    },
+    "4. Find People": {
+      "main": [
+        [ { "node": "5. Generate Personalised Outreach", "type": "main", "index": 0 } ],
+        [ { "node": "6. Detect Triggers", "type": "main", "index": 0 } ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "f7ab0a12-8234-4bc9-a9a7-abcdef123456"
+}
