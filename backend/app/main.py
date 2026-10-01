@@ -29,6 +29,15 @@ app.include_router(outreach_router)
 app.include_router(signals_router)
 app.include_router(dashboard_router)
 
+@app.on_event("startup")
+def on_startup():
+    try:
+        from app.database import engine, Base
+        import app.models.company  # noqa: F401
+        Base.metadata.create_all(bind=engine)
+    except Exception as e:
+        print(f"Warning: Could not create tables on startup: {e}")
+
 @app.get("/")
 def home():
     return {

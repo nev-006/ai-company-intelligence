@@ -58,8 +58,9 @@ export default function AddCompanyModal({ isOpen, onClose, onSuccess }: AddCompa
         clearInterval(interval);
 
         if (!res.ok) {
-          const errData = await res.json().catch(() => ({}));
-          throw new Error(errData.detail || "Failed to run pipeline for company");
+          const errData = await res.json().catch(() => null);
+          const rawText = !errData ? await res.text().catch(() => "") : "";
+          throw new Error(errData?.detail || rawText || `Server returned error (${res.status})`);
         }
 
         const data = await res.json();
@@ -81,8 +82,9 @@ export default function AddCompanyModal({ isOpen, onClose, onSuccess }: AddCompa
         clearInterval(interval);
 
         if (!res.ok) {
-          const errData = await res.json().catch(() => ({}));
-          throw new Error(errData.detail || "Failed to save company");
+          const errData = await res.json().catch(() => null);
+          const rawText = !errData ? await res.text().catch(() => "") : "";
+          throw new Error(errData?.detail || rawText || `Server returned error (${res.status})`);
         }
 
         const newCompany = await res.json();
