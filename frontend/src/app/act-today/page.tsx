@@ -4,7 +4,7 @@ export const dynamic = "force-dynamic";
 
 async function getDashboardToday() {
   try {
-    const res = await fetch("${process.env.NEXT_PUBLIC_API_URL}/api/dashboard/today", {
+    const res = await fetch("http://127.0.0.1:8000/api/dashboard/today", {
       cache: "no-store",
     });
     if (!res.ok) return null;

@@ -42,7 +42,7 @@ export default function PersonaOutreachSection({
     setGeneratingForPersonId(personId);
     setError(null);
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/outreach/generate/${personId}`, {
+      const res = await fetch(`http://127.0.0.1:8000/api/outreach/generate/${personId}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
       });

@@ -5,7 +5,7 @@ export const dynamic = "force-dynamic";
 
 async function getCompany(id: string) {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/companies/${id}`, { cache: "no-store" });
+    const res = await fetch(`http://127.0.0.1:8000/api/companies/${id}`, { cache: "no-store" });
     if (!res.ok) return null;
     return res.json();
   } catch {
@@ -15,7 +15,7 @@ async function getCompany(id: string) {
 
 async function getSignals(id: string) {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/signals/company/${id}`, { cache: "no-store" });
+    const res = await fetch(`http://127.0.0.1:8000/api/signals/company/${id}`, { cache: "no-store" });
     if (!res.ok) return [];
     return res.json();
   } catch {
@@ -25,7 +25,7 @@ async function getSignals(id: string) {
 
 async function getSnapshots(id: string) {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/companies/${id}/snapshots`, { cache: "no-store" });
+    const res = await fetch(`http://127.0.0.1:8000/api/companies/${id}/snapshots`, { cache: "no-store" });
     if (!res.ok) return [];
     return res.json();
   } catch {

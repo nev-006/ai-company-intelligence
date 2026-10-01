@@ -4,7 +4,7 @@ export const dynamic = "force-dynamic";
 
 async function getDashboardToday() {
   try {
-    const res = await fetch("${process.env.NEXT_PUBLIC_API_URL}/api/dashboard/today", { cache: "no-store" });
+    const res = await fetch("http://127.0.0.1:8000/api/dashboard/today", { cache: "no-store" });
     if (!res.ok) return null;
     return res.json();
   } catch (e) {
@@ -15,7 +15,7 @@ async function getDashboardToday() {
 
 async function getOpportunities(limit: number = 100) {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/opportunities/?limit=${limit}`, {
+    const res = await fetch(`http://127.0.0.1:8000/api/opportunities/?limit=${limit}`, {
       cache: "no-store",
     });
     if (!res.ok) return [];
@@ -28,7 +28,7 @@ async function getOpportunities(limit: number = 100) {
 
 async function getRecentSignals() {
   try {
-    const res = await fetch("${process.env.NEXT_PUBLIC_API_URL}/api/signals/", { cache: "no-store" });
+    const res = await fetch("http://127.0.0.1:8000/api/signals/", { cache: "no-store" });
     if (!res.ok) return [];
     const data = await res.json();
     return data.slice(0, 10);
@@ -40,7 +40,7 @@ async function getRecentSignals() {
 
 async function getCompanies() {
   try {
-    const res = await fetch("${process.env.NEXT_PUBLIC_API_URL}/api/companies/", { cache: "no-store" });
+    const res = await fetch("http://127.0.0.1:8000/api/companies/`", { cache: "no-store" });
     if (!res.ok) return [];
     return res.json();
   } catch (e) {

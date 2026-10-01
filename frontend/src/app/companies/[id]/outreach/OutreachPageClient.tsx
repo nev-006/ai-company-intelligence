@@ -53,7 +53,7 @@ export default function OutreachPageClient({
   const handleRegenerate = async () => {
     setGenerating(true);
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/companies/${company.id}/outreach`, {
+      const res = await fetch(`http://127.0.0.1:8000/api/companies/${company.id}/outreach`, {
         method: "POST",
       });
       if (!res.ok) throw new Error("Generation failed");

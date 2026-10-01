@@ -4,7 +4,7 @@ export const dynamic = "force-dynamic";
 
 async function getCompanies() {
   try {
-    const res = await fetch("${process.env.NEXT_PUBLIC_API_URL}/api/companies/", { cache: "no-store" });
+    const res = await fetch("http://127.0.0.1:8000/api/companies/`", { cache: "no-store" });
     if (!res.ok) return [];
     return res.json();
   } catch {
@@ -15,7 +15,7 @@ async function getCompanies() {
 async function getAllOutreaches(companies: any[]) {
   const outreachPromises = companies.map(async (c) => {
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/outreach/company/${c.id}`, { cache: "no-store" });
+      const res = await fetch(`http://127.0.0.1:8000/api/outreach/company/${c.id}`, { cache: "no-store" });
       if (!res.ok) return [];
       const drafts = await res.json();
       return drafts.map((d: any) => ({ ...d, company_name: c.name, company_website: c.website }));
