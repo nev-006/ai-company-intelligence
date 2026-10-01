@@ -38,7 +38,7 @@ export default function AddCompanyPageClient() {
         setCurrentStep((prev) => (prev < 5 ? prev + 1 : prev));
       }, 3500);
 
-      const endpoint = runPipeline ? "http://127.0.0.1:8000/api/companies/pipeline" : "http://127.0.0.1:8000/api/companies/analyze";
+      const endpoint = runPipeline ? "${process.env.NEXT_PUBLIC_API_URL}/api/companies/pipeline" : "${process.env.NEXT_PUBLIC_API_URL}/api/companies/analyze";
       const payload = {
         name: name.trim() || undefined,
         website: url.trim(),
@@ -220,3 +220,4 @@ export default function AddCompanyPageClient() {
     </div>
   );
 }
+

@@ -4,7 +4,7 @@ export const dynamic = "force-dynamic";
 
 async function getOpportunities() {
   try {
-    const res = await fetch("http://127.0.0.1:8000/api/opportunities/", { cache: "no-store" });
+    const res = await fetch("${process.env.NEXT_PUBLIC_API_URL}/api/opportunities/", { cache: "no-store" });
     if (!res.ok) return [];
     return res.json();
   } catch {
@@ -14,7 +14,7 @@ async function getOpportunities() {
 
 async function getCompanies() {
   try {
-    const res = await fetch("http://127.0.0.1:8000/api/companies/", { cache: "no-store" });
+    const res = await fetch("${process.env.NEXT_PUBLIC_API_URL}/api/companies/", { cache: "no-store" });
     if (!res.ok) return [];
     return res.json();
   } catch {
@@ -131,3 +131,4 @@ export default async function OpportunitiesPage() {
     </main>
   );
 }
+

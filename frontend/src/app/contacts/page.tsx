@@ -4,7 +4,7 @@ export const dynamic = "force-dynamic";
 
 async function getCompanies() {
   try {
-    const res = await fetch("http://127.0.0.1:8000/api/companies/", { cache: "no-store" });
+    const res = await fetch("${process.env.NEXT_PUBLIC_API_URL}/api/companies/", { cache: "no-store" });
     if (!res.ok) return [];
     return res.json();
   } catch {
@@ -15,7 +15,7 @@ async function getCompanies() {
 async function getAllContacts(companies: any[]) {
   const contactPromises = companies.map(async (c) => {
     try {
-      const res = await fetch(`http://127.0.0.1:8000/api/companies/${c.id}/contacts`, { cache: "no-store" });
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/companies/${c.id}/contacts`, { cache: "no-store" });
       if (!res.ok) return [];
       const contacts = await res.json();
       return contacts.map((ct: any) => ({ ...ct, company_name: c.name, company_website: c.website }));
@@ -110,3 +110,4 @@ export default async function ContactsPage() {
     </main>
   );
 }
+

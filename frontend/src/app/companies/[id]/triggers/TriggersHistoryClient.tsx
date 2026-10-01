@@ -39,7 +39,7 @@ export default function TriggersHistoryClient({
   const handleRunTriggerCheck = async () => {
     setRunning(true);
     try {
-      const res = await fetch(`http://127.0.0.1:8000/api/companies/${company.id}/trigger-check`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/companies/${company.id}/trigger-check`, {
         method: "POST",
       });
       if (!res.ok) throw new Error("Trigger check failed");
@@ -47,7 +47,7 @@ export default function TriggersHistoryClient({
       setSignals([...newSignals, ...signals]);
 
       // Refresh snapshots
-      const snapRes = await fetch(`http://127.0.0.1:8000/api/companies/${company.id}/snapshots`);
+      const snapRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/companies/${company.id}/snapshots`);
       if (snapRes.ok) {
         setSnapshots(await snapRes.json());
       }
